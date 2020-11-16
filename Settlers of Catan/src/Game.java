@@ -99,6 +99,8 @@ public class Game extends PApplet {
     		background(0);
     		text("ready", width/2, height/2);
     		
+    		break;
+    		
     	}
     	
     }

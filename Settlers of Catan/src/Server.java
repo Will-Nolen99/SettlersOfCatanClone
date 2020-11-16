@@ -73,6 +73,7 @@ public class Server {
 				
 				System.out.println("Connection created");
 				System.out.println("Starting connection");
+				System.out.println();
 				
 				
 				String clientName = "Player " + (connectedPlayers + 1);
