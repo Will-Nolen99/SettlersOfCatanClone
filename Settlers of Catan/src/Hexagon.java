@@ -1,11 +1,22 @@
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+
 import processing.core.PVector;
 
-public class Hexagon {
+public class Hexagon implements Serializable {
 	
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8442021869013284474L;
+
 	private PVector center;
 	private String type;
 	private int number;
+	private Set<BuildingPoint> points = new HashSet<BuildingPoint>();
+	private Set<Path> paths = new HashSet<Path>();
 	
 	public Hexagon(String type) {
 		this.type = type;

@@ -23,7 +23,7 @@ public class Game extends PApplet {
 
     // method for setting the size of the window
     public void settings(){
-        size(500, 500);
+        size(1920, 1080);
     }
 
     // identical use to setup in Processing IDE except for size()
@@ -88,13 +88,14 @@ public class Game extends PApplet {
     		
     		this.waitingScreen.draw();
     		
-    		if(client.getMode().equals("ready")) {
-    			this.mode = "ready";
+    		if(client.getMode().equals("starting pieces")) {
+    			this.mode = "starting pieces";
+    			Board board = client.getBoard();
     		}
     		
     		break;
     		
-    	case "ready":
+    	case "starting pieces":
     		background(0);
     		text("ready", width/2, height/2);
     		

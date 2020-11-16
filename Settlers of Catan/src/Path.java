@@ -1,9 +1,14 @@
+import java.io.Serializable;
 import java.util.Arrays;
 
 import processing.core.PVector;
 
-public class Path {
+public class Path implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1489003526199585222L;
 	private PVector p1, p2;
 	private int[] color;
 	

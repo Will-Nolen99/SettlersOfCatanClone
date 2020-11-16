@@ -1,9 +1,14 @@
 
+import java.io.Serializable;
 import java.util.Arrays;
 import processing.core.PVector;
 
-public class BuildingPoint {
+public class BuildingPoint implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4061249677100782557L;
 	private PVector point;
 	private int[] color;
 	

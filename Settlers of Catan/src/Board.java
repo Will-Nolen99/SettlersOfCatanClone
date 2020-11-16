@@ -1,3 +1,4 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -7,8 +8,12 @@ import java.util.Set;
 import processing.core.PApplet;
 import processing.core.PVector;
 
-public class Board {
+public class Board implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 935097427564983659L;
 	private int layers, tiles;
 	private ArrayList<Hexagon> board;
 	private ArrayList<PVector> centerPoints;

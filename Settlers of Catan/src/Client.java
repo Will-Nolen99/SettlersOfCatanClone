@@ -15,7 +15,9 @@ public class Client extends Thread{
 	
 	Player player;
 	
-	int numPlayers;
+	private Board board;
+	
+	private int numPlayers;
 	
 	ArrayList<Player> otherPlayers;
 	
@@ -43,6 +45,10 @@ public class Client extends Thread{
 	
 	public void setPlayer(Player p) {
 		this.player = p;
+	}
+	
+	public Board getBoard() {
+		return this.board;
 	}
 	
 	
@@ -99,15 +105,19 @@ public class Client extends Thread{
 								System.out.println("Player " + pNum + " Information recieved");
 								System.out.println(p);
 								
-								
 							}
 							
 							System.out.println("All player information recieved");
 							System.out.println();
 							
+							break;
 							
+						case 3:
 							
-					
+							//server is sending information about the board;
+							this.board = (Board) in.readObject();
+							System.out.println("Board recieved");
+							this.mode = "starting pieces";
 					
 					}
 					

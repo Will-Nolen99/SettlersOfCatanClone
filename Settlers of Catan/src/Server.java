@@ -162,15 +162,21 @@ public class Server {
 			
 			//create board and decks
 			
+			System.out.println("Creating decks and board");
+			
 			Decks decks = new Decks(numPlayers);
 			Board board = new Board(tiles);
 			
 			//synchronize board with each player
 			
+			System.out.println("Sending initial board with players");
 			for(int i = 0; i < connections.size(); i++) {
 				Connection connection = connections.get(i);
-				connection.sendMessageType(2);
+				connection.sendMessageType(3);
+				connection.sendBoard(board);
 			}
+			
+			System.out.println("Board synced");
 			
 			
 			
@@ -261,6 +267,10 @@ class Connection extends Thread {
 		this.out.flush();
 		System.out.println("Sent");
 		
+	}
+	
+	public void sendBoard(Board b) throws IOException {
+		this.out.writeObject(b);
 	}
 	
 	public String reciveMessage() throws ClassNotFoundException, IOException {
