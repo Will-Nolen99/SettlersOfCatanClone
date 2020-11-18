@@ -30,21 +30,19 @@ public class Board implements Serializable{
 		this.layers = layers;
 		this.tiles = 1;
 		
+		this.tiles = 3 * layers * layers - 3 * layers + 1;
+
+		
 		this.buildingPoints = new HashSet<BuildingPoint>();
 		this.paths = new HashSet<Path>();
 		
-		this.getTileNum();
+		this.tileRadius = 60;
+		
 		this.makeBoard();
 		this.makePlacementPoints();
-		this.tileRadius = 30;
+
 	}
 	
-	
-	private void getTileNum() {
-		for(int i = 0; i < layers; i++) {
-			this.tiles += 6 * i;
-		}
-	}
 	
 	
 	private void makeBoard() {
@@ -55,26 +53,46 @@ public class Board implements Serializable{
 		
 		this.board.add(new Hexagon("desert"));
 		
-		//put minimum amount of resources into deck
-		
-		for(int i = 0; i < 4; i++) {
-			this.board.add(new Hexagon("wheat"));
-			this.board.add(new Hexagon("wood"));
-			this.board.add(new Hexagon("sheep"));
-		}
-		
-		for(int i = 0; i < 3; i++) {
-			this.board.add(new Hexagon("brick"));
-			this.board.add(new Hexagon("ore"));
-		}
-		
-		
-		//if board is large, add random tiles to the deck
+		//put resources into deck
 		
 		Random choice = new Random();
 		
-		while(this.board.size() < this.tiles) {
-			int pick = choice.nextInt();
+		
+		
+		//assign that tile a random number with catan distribution
+		ArrayList<Integer> nums = new ArrayList<Integer>();
+		ArrayList<Hexagon> hexes = new ArrayList<Hexagon>();
+		
+		for(int i = 0; i < 10000; i++) {
+			int pick = choice.nextInt(18);
+			
+			int num = 0;
+			
+			if(pick < 1) {
+				num = 2;
+			}else if(pick < 3) {
+				num = 3;
+			}else if(pick < 5) {
+				num = 4;
+			}else if(pick < 7) {
+				num = 5;
+			}else if(pick < 9) {
+				num = 6;
+			}else if(pick < 11) {
+				num = 8;
+			}else if(pick < 13) {
+				num = 9;
+			}else if(pick < 15){
+				num = 10;
+			}else if(pick < 16) {
+				num = 11;
+			}else {
+				num = 12;
+			}
+			
+			nums.add(num);
+			
+			pick = choice.nextInt(18);
 			String type = "";
 			
 			if(pick < 4) {
@@ -89,7 +107,32 @@ public class Board implements Serializable{
 				type = "ore";
 			}
 			
-			this.board.add(new Hexagon(type));
+			
+			Hexagon hex = new Hexagon(type);
+			hexes.add(hex);
+			
+			
+			
+		}
+		
+		
+		Collections.shuffle(nums);
+		Collections.shuffle(hexes);
+		
+		
+		
+		
+		
+		while(this.board.size() < this.tiles) {
+
+			
+			Hexagon hex = hexes.get(0);
+			hexes.remove(0);
+			
+			hex.setNum(nums.get(0));
+			nums.remove(0);
+			
+			this.board.add(hex);
 			
 		}
 		
@@ -99,6 +142,7 @@ public class Board implements Serializable{
 		this.centerPoints = new ArrayList<PVector>();
 		
 		int radius = this.tileRadius;
+
 		
 		PVector origin = new PVector();
 		origin.x = 0;
@@ -110,9 +154,10 @@ public class Board implements Serializable{
 		this.board.get(hexIndex).setCoords(origin);
 		hexIndex++;
 		
-		Random rand = new Random();
 		
-		for(int layer = 0; layer < this.layers; layer++) {
+		
+		
+		for(int layer = 1; layer < this.layers + 1 ; layer++) {
 			
 			int yCoord = 0;
 			int xCoord = (int) PApplet.round((layer * PApplet.sqrt(3) * radius));
@@ -120,15 +165,35 @@ public class Board implements Serializable{
 			int horizontalOffset = (int) PApplet.round(-radius * PApplet.sqrt(3) / 2);
 			int shift = 0;
 			
-			for(int hex = 0; hex < layer * 6; hex++) {
+			
+			
+			System.out.println("Layer: " + layer);
+			System.out.println("sqrt 3: " + PApplet.sqrt(3));
+			System.out.println("radius: " + radius);
+			
+			System.out.println(PApplet.round((layer * PApplet.sqrt(3) * radius)));
+			System.out.println("xCoord: " + xCoord + " yCoord: " + yCoord);
+			
+			for(int hex = 0; hex < layer  * 6; hex++) {
 				
 				PVector point = new PVector();
 				point.x = xCoord;
 				point.y = yCoord;
 				
 				centerPoints.add(point);
-				this.board.get(hexIndex).setCoords(point);
-				this.board.get(hexIndex).setNum(rand.nextInt(11) + 2);
+				
+				Hexagon current = new Hexagon("ocean");
+				
+				if(layer != layers) {
+				
+					current = this.board.get(hexIndex);
+				}else {
+					this.board.add(current);
+				}
+				
+				System.out.println("Coords set at " + point);
+				current.setCoords(point);
+
 				
 				if(shift == layer) {
 					verticalOffset = 0;
@@ -157,6 +222,9 @@ public class Board implements Serializable{
 			
 			
 		}
+	
+
+		
 		
 	}
 	
@@ -210,6 +278,27 @@ public class Board implements Serializable{
 		
 		
 	}
+	
+	
+
+	
+	
+	public void draw(PApplet canvas) {
+
+
+		canvas.push();
+		
+		canvas.translate(canvas.width/2, canvas.height/2);
+		
+		for(Hexagon hex: this.board) {
+			hex.draw(canvas);
+			
+		}
+		canvas.pop();
+		
+		
+	}
+	
 	
 	
 	

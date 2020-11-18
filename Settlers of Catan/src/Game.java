@@ -15,6 +15,8 @@ public class Game extends PApplet {
 	
 	Client client;
 	
+	Board board;
+	
 	
     // The argument passed to main must match the class name
     public static void main(String[] args) {
@@ -90,14 +92,17 @@ public class Game extends PApplet {
     		
     		if(client.getMode().equals("starting pieces")) {
     			this.mode = "starting pieces";
-    			Board board = client.getBoard();
+    			board = client.getBoard();
     		}
     		
     		break;
     		
     	case "starting pieces":
-    		background(0);
-    		text("ready", width/2, height/2);
+    		background(255);
+    		stroke(0);
+    		board.draw(this);
+    		
+    		
     		
     		break;
     		

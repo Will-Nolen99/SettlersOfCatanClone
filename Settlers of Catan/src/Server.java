@@ -17,22 +17,14 @@ public class Server {
 		String n = keyboard.nextLine();
 		int numPlayers = Integer.parseInt(n);
 		
-		int layers = 1;
+		int layers = 2;
 		
-//		System.out.println("Enter number of board layers: ");
-//		n = keyboard.nextLine();
-//		layers = Integer.parseInt(n);
-//		
-//		
-//		
-//		//number of tiles in hexagonal
-//		
-		int tiles = 1;
-//		
-//		for(int i = 0; i < layers; i++) {
-//			tiles += 6 * i;
-//		}
-//		
+		System.out.print("Enter number of board layers: ");
+		n = keyboard.nextLine();
+		layers = Integer.parseInt(n);
+
+
+
 		
 		
 		//Create server and assign port
@@ -166,7 +158,7 @@ public class Server {
 			System.out.println("Creating decks and board");
 			
 			Decks decks = new Decks(numPlayers);
-			Board board = new Board(tiles);
+			Board board = new Board(layers);
 			
 			//synchronize board with each player
 			
