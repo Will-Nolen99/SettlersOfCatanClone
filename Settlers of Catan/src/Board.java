@@ -292,8 +292,19 @@ public class Board implements Serializable{
 		
 		for(Hexagon hex: this.board) {
 			hex.draw(canvas);
-			
 		}
+		canvas.pop();
+		
+		int x = canvas.mouseX;
+		int y = canvas.mouseY;
+		
+		//temp for making measurements on canvas
+		
+		canvas.push();
+		canvas.fill(0);
+		canvas.textSize(50);
+		canvas.text("X: " + x, 100, 800);
+		canvas.text("Y: " + y, 100, 900);
 		canvas.pop();
 		
 		

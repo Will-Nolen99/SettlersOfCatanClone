@@ -13,15 +13,16 @@ public class Server {
 		
 		Scanner keyboard = new Scanner(System.in);
 		
-		System.out.print("Enter number of players: ");
-		String n = keyboard.nextLine();
-		int numPlayers = Integer.parseInt(n);
+//		System.out.print("Enter number of players: ");
+//		String n = keyboard.nextLine();
+//		int numPlayers = Integer.parseInt(n);
 		
-		int layers = 2;
+		int numPlayers = 1;		
+		int layers = 3;
 		
-		System.out.print("Enter number of board layers: ");
-		n = keyboard.nextLine();
-		layers = Integer.parseInt(n);
+//		System.out.print("Enter number of board layers: ");
+//		n = keyboard.nextLine();
+//		layers = Integer.parseInt(n);
 
 
 

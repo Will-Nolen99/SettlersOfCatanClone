@@ -8,14 +8,17 @@ import processing.core.PApplet;
 public class Game extends PApplet {
 
 	private Player player;
-	String mode;
+	private String mode;
 	
-	PlayerInfoScreen infoScreen;
-	WaitingScreen waitingScreen;
+	private PlayerInfoScreen infoScreen;
+	private WaitingScreen waitingScreen;
 	
-	Client client;
+	private MainUi main;
 	
-	Board board;
+	
+	private Client client;
+	
+	private Board board;
 	
 	
     // The argument passed to main must match the class name
@@ -47,12 +50,20 @@ public class Game extends PApplet {
 //        
 //        scnr.close();
         	
-        this.player = new Player("Placeholder");
+        
+        String name = "PlaceHolder";
+        
+        this.player = new Player(name);
         this.player.setNum(-1);
         this.mode = "setup";
         
         this.infoScreen = new PlayerInfoScreen(this, this.player);
         this.waitingScreen = new WaitingScreen(this);
+        this.main = new MainUi(this);
+        
+        
+        
+        
         
         
     }
@@ -76,6 +87,7 @@ public class Game extends PApplet {
     				this.client.setPlayer(this.player);
     				this.client.start();
     				
+    				
     			} catch (IOException e) {
     				System.out.println("Connection could not be established");
     				e.printStackTrace();
@@ -93,6 +105,8 @@ public class Game extends PApplet {
     		if(client.getMode().equals("starting pieces")) {
     			this.mode = "starting pieces";
     			board = client.getBoard();
+    			this.main.setMainPlayer(this.player);
+    			
     		}
     		
     		break;
@@ -101,6 +115,9 @@ public class Game extends PApplet {
     		background(255);
     		stroke(0);
     		board.draw(this);
+    		this.main.draw();
+    		
+    
     		
     		
     		
