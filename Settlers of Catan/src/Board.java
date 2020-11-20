@@ -165,14 +165,12 @@ public class Board implements Serializable{
 			int horizontalOffset = (int) PApplet.round(-radius * PApplet.sqrt(3) / 2);
 			int shift = 0;
 			
-			
-			
-			System.out.println("Layer: " + layer);
-			System.out.println("sqrt 3: " + PApplet.sqrt(3));
-			System.out.println("radius: " + radius);
-			
-			System.out.println(PApplet.round((layer * PApplet.sqrt(3) * radius)));
-			System.out.println("xCoord: " + xCoord + " yCoord: " + yCoord);
+//			System.out.println("Layer: " + layer);
+//			System.out.println("sqrt 3: " + PApplet.sqrt(3));
+//			System.out.println("radius: " + radius);
+//			
+//			System.out.println(PApplet.round((layer * PApplet.sqrt(3) * radius)));
+//			System.out.println("xCoord: " + xCoord + " yCoord: " + yCoord);
 			
 			for(int hex = 0; hex < layer  * 6; hex++) {
 				

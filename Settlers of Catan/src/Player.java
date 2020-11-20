@@ -1,6 +1,10 @@
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import processing.core.PApplet;
+import processing.core.PImage;
 
 
 public class Player implements Serializable {
@@ -12,6 +16,11 @@ public class Player implements Serializable {
 	private int points;
 	private int[] color = {127, 127, 127};
 	private int number;
+	private int totalCards;
+	
+	private PImage pic;
+	
+	private Map<String, Integer> cards;
 	
 	private Map<String, Integer> pieces;
 	
@@ -24,6 +33,16 @@ public class Player implements Serializable {
 		this.pieces.put("city", 4);
 		this.pieces.put("settlement", 5);
 		this.pieces.put("road", 15);
+		
+		this.cards = new HashMap<String, Integer>();
+		this.totalCards = 0;
+		
+		this.cards.put("wood", 0);
+		this.cards.put("wheat", 0);
+		this.cards.put("sheep", 0);
+		this.cards.put("brick", 0);
+		this.cards.put("ore", 0);
+
 	}
 	
 	
@@ -31,6 +50,16 @@ public class Player implements Serializable {
 	public void setProfilePicture(String fname) {
 		this.picturePath = fname;
 	}
+	
+	public void loadPic(PApplet canvas) {
+		this.pic = canvas.loadImage(this.picturePath);
+		this.pic.resize(150, 150);
+	}
+	
+	public PImage getPic() {
+		return this.pic;
+	}
+	
 	
 	public Map<String, Integer> getPieces(){
 		return this.pieces;
@@ -59,6 +88,17 @@ public class Player implements Serializable {
 	public String getName() {
 		return this.name;
 	}
+	
+	public int getTotalCards() {
+		return this.totalCards;
+	}
+	
+	public Map<String, Integer> getCards(){
+		return this.cards;
+	}
+	
+	
+	
 	
 	
 	@Override

@@ -51,6 +51,10 @@ public class Client extends Thread{
 		return this.board;
 	}
 	
+	public ArrayList<Player> getPlayers(){
+		return this.otherPlayers;
+	}
+	
 	
 	@Override
 	public void run() {

@@ -2,6 +2,7 @@
 
 import java.io.IOException; 
 //import java.net.UnknownHostException;
+import java.util.ArrayList;
 
 import processing.core.PApplet;
 
@@ -19,6 +20,8 @@ public class Game extends PApplet {
 	private Client client;
 	
 	private Board board;
+	
+	private ArrayList<Player> others;
 	
 	
     // The argument passed to main must match the class name
@@ -106,6 +109,8 @@ public class Game extends PApplet {
     			this.mode = "starting pieces";
     			board = client.getBoard();
     			this.main.setMainPlayer(this.player);
+    			this.others = client.getPlayers();
+    			this.main.addPlayers(this.others);
     			
     		}
     		
