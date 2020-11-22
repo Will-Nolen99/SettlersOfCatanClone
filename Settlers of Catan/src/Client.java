@@ -13,11 +13,15 @@ public class Client extends Thread{
 	
 	private String mode;
 	
+	private String playerTurn;
+	
 	Player player;
 	
 	private Board board;
 	
 	private int numPlayers;
+	
+	boolean currentTurn;
 	
 	ArrayList<Player> otherPlayers;
 	
@@ -29,6 +33,9 @@ public class Client extends Thread{
 		this.mode = "waiting";
 		System.out.println("Connection created");
 		System.out.println();
+		
+		this.currentTurn = false;
+		this.playerTurn = "None";
 		
 	}
 	
@@ -53,6 +60,11 @@ public class Client extends Thread{
 	
 	public ArrayList<Player> getPlayers(){
 		return this.otherPlayers;
+	}
+	
+	
+	public boolean getTurn() {
+		return this.currentTurn;
 	}
 	
 	
@@ -122,7 +134,22 @@ public class Client extends Thread{
 							this.board = (Board) in.readObject();
 							System.out.println("Board recieved");
 							this.mode = "starting pieces";
-					
+							break;
+							
+						case 4:
+							System.out.println("Player placement turn recieved");
+							this.playerTurn = (String) this.in.readObject();
+							
+							System.out.println(this.playerTurn + "'s placement turn");
+							break;
+							
+							
+							
+						case 5:
+							System.out.println("End turn recieved");
+							this.currentTurn = false;
+							break;
+							
 					}
 					
 				
@@ -143,6 +170,11 @@ public class Client extends Thread{
 		
 		
 		
+	}
+
+
+	public String getPlayerTurn() {
+		return this.playerTurn;
 	}
 	
 	

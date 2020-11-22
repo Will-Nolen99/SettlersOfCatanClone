@@ -17,8 +17,8 @@ public class Server {
 //		String n = keyboard.nextLine();
 //		int numPlayers = Integer.parseInt(n);
 		
-		int numPlayers = 5;		
-		int layers = 3;
+		int numPlayers = 2;		
+		int layers = 2;
 		
 //		System.out.print("Enter number of board layers: ");
 //		n = keyboard.nextLine();
@@ -173,6 +173,41 @@ public class Server {
 			System.out.println("Board synced");
 			
 			
+			// snake turn forward
+			
+			
+			for(int i = 0; i < players.size(); i++) {
+				Player player = players.get(i);
+				Connection connection = connections.get(i);
+			
+				for(Connection c : connections) {
+
+					c.sendMessageType(4);
+					c.sendPlayerTurn(player.getName());
+					
+				}
+				
+				System.out.println("Updating board");
+				board = connection.getUpdatedBoard();
+				
+				System.out.println("Redistrubuting board");
+				for(Connection c : connections) {
+					c.sendBoard(board);
+				}
+				
+				
+				
+			}
+			
+			
+			
+			
+			//snake turn backward
+			
+			
+			
+			
+			
 			
 			
 			
@@ -225,6 +260,15 @@ class Connection extends Thread {
 	
 	
 	
+	public Board getUpdatedBoard() throws ClassNotFoundException, IOException {
+		System.out.println("Awaiting board information");
+		Board b = (Board) this.in.readObject();
+		return b;
+	}
+
+
+
+
 	@Override
 	public void run() {
 		
@@ -261,6 +305,13 @@ class Connection extends Thread {
 		this.out.flush();
 		System.out.println("Sent");
 		
+	}
+	
+	public void sendPlayerTurn(String name) throws IOException{
+		System.out.println("Sending player turn info");
+		this.out.writeObject(name);
+		this.out.flush();
+		System.out.println("Sent");
 	}
 	
 	public void sendBoard(Board b) throws IOException {

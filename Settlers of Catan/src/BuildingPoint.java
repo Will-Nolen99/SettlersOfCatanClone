@@ -1,6 +1,8 @@
 
 import java.io.Serializable;
 import java.util.Arrays;
+
+import processing.core.PApplet;
 import processing.core.PVector;
 
 public class BuildingPoint implements Serializable {
@@ -40,6 +42,19 @@ public class BuildingPoint implements Serializable {
 		return this.building;
 	}
 
+	
+	public int distance(BuildingPoint bp) {
+		
+		PVector p1 = this.point;
+		PVector p2 = bp.getPoint();
+		
+		
+		
+		
+		return (int) PApplet.dist(p1.x, p1.y, p2.x, p2.y);
+		
+	}
+	
 
 	@Override
 	public int hashCode() {
@@ -51,6 +66,8 @@ public class BuildingPoint implements Serializable {
 		return result;
 	}
 
+	
+	
 
 	@Override
 	public boolean equals(Object obj) {

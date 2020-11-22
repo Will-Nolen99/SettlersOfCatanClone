@@ -39,8 +39,12 @@ public class Board implements Serializable{
 		this.tileRadius = 60;
 		
 		this.makeBoard();
-		this.makePlacementPoints();
+		
 
+	}
+	
+	public Set<BuildingPoint> getBuildingPoints(){
+		return this.buildingPoints;
 	}
 	
 	
@@ -154,7 +158,7 @@ public class Board implements Serializable{
 		this.board.get(hexIndex).setCoords(origin);
 		hexIndex++;
 		
-		
+		boolean pointsMade = false;
 		
 		
 		for(int layer = 1; layer < this.layers + 1 ; layer++) {
@@ -172,6 +176,7 @@ public class Board implements Serializable{
 //			System.out.println(PApplet.round((layer * PApplet.sqrt(3) * radius)));
 //			System.out.println("xCoord: " + xCoord + " yCoord: " + yCoord);
 			
+			
 			for(int hex = 0; hex < layer  * 6; hex++) {
 				
 				PVector point = new PVector();
@@ -180,12 +185,20 @@ public class Board implements Serializable{
 				
 				centerPoints.add(point);
 				
+				
+				
 				Hexagon current = new Hexagon("ocean");
 				
 				if(layer != layers) {
 				
 					current = this.board.get(hexIndex);
 				}else {
+					
+					if(!pointsMade) {
+						this.makePlacementPoints();
+						pointsMade = true;
+					}
+					
 					this.board.add(current);
 				}
 				
@@ -232,10 +245,11 @@ public class Board implements Serializable{
 		
 		int radius = this.tileRadius;
 		
-		for(int i = 0; i < this.centerPoints.size(); i++) {
+		for(int i = 0; i < this.centerPoints.size() - 1; i++) {
 			PVector point = this.centerPoints.get(i);
 			
-			for(int angle = 30, angle2 = 90; angle < 390; angle += 60, angle += 60) {
+			
+			for(int angle = 30, angle2 = 90; angle < 390; angle += 60, angle2 += 60) {
 				
 				float theta = PApplet.radians(angle);
 				float theta2 = PApplet.radians(angle2);
@@ -250,15 +264,42 @@ public class Board implements Serializable{
 				PVector p1 = new PVector();
 				PVector p2 = new PVector();
 				
+				
+				
 				p1.x = x;
 				p1.y = y;
 				
 				p2.x = x2;
 				p2.y = y2;
 				
+				System.out.println(p1);
+				
 				BuildingPoint bp = new BuildingPoint(p1);
 				
-				this.buildingPoints.add(bp);
+				boolean place = true;
+				
+				if(this.buildingPoints.size() > 0) {
+					for(BuildingPoint bpi:this.buildingPoints) {
+						
+						if(bp.distance(bpi) < 10) {
+							
+							System.out.println("Distance from other points: " + bp.distance(bpi));
+							place = false;
+						}
+						
+
+					
+					}	
+				}
+				
+				
+				if(place) {
+					this.buildingPoints.add(bp);
+				}
+
+				
+				
+
 				
 				Path p = new Path(p1, p2);
 				
@@ -267,6 +308,7 @@ public class Board implements Serializable{
 				
 				
 			}
+			System.out.println();
 			
 			
 		}

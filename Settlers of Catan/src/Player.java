@@ -17,6 +17,7 @@ public class Player implements Serializable {
 	private int[] color = {127, 127, 127};
 	private int number;
 	private int totalCards;
+	private boolean currentTurn;
 	
 	private PImage pic;
 	
@@ -42,7 +43,21 @@ public class Player implements Serializable {
 		this.cards.put("sheep", 0);
 		this.cards.put("brick", 0);
 		this.cards.put("ore", 0);
+		
+		this.currentTurn = false;
 
+	}
+	
+	public void setTurn(boolean b) {
+		this.currentTurn = b;
+	}
+	
+	public void startTurn() {
+		this.currentTurn = true;
+	}
+	
+	public void stopTurn() {
+		this.currentTurn = false;
 	}
 	
 	

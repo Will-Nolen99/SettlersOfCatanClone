@@ -3,6 +3,7 @@
 import java.io.IOException; 
 //import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import processing.core.PApplet;
 
@@ -14,6 +15,8 @@ public class Game extends PApplet {
 	private PlayerInfoScreen infoScreen;
 	private WaitingScreen waitingScreen;
 	
+	private OtherTurnUi otherTurnUi;
+	
 	private MainUi main;
 	
 	
@@ -22,6 +25,8 @@ public class Game extends PApplet {
 	private Board board;
 	
 	private ArrayList<Player> others;
+	
+	private PlacementUi placementUi;
 	
 	
     // The argument passed to main must match the class name
@@ -48,7 +53,7 @@ public class Game extends PApplet {
         
 //        Scanner scnr = new Scanner(System.in);
 //        
-//        System.out.println("Enter name: ");
+//        System.out.print("Enter name: ");
 //        String name = scnr.nextLine();
 //        
 //        scnr.close();
@@ -64,6 +69,7 @@ public class Game extends PApplet {
         this.waitingScreen = new WaitingScreen(this);
         this.main = new MainUi(this);
         
+        this.placementUi = new PlacementUi(this);
         
         
         
@@ -73,6 +79,9 @@ public class Game extends PApplet {
 
     // identical use to draw in Processing IDE
     public void draw(){
+    	
+    	
+
         
     	switch(this.mode) {
     	
@@ -122,9 +131,29 @@ public class Game extends PApplet {
     		board.draw(this);
     		this.main.draw();
     		
+    		String turn = client.getPlayerTurn();
+    		
+    		if(!turn.equals("none")) {
+    			
+    			if(turn.equals(this.player.getName())) {
+    				
+    				
+    				this.placementUi.setBoard(this.board);
+    				this.placementUi.draw("settlement");
+    				this.placementUi.update();
+    				
+    				
+    			}//else {
+//    				
+//    				this.otherTurnUi.draw(turn);
+//    			}
+    			
+    			
+    		}
+    		
+    		
+    		
     
-    		
-    		
     		
     		break;
     		
