@@ -202,7 +202,7 @@ public class Board implements Serializable{
 					this.board.add(current);
 				}
 				
-				System.out.println("Coords set at " + point);
+				//System.out.println("Coords set at " + point);
 				current.setCoords(point);
 
 				
@@ -239,6 +239,10 @@ public class Board implements Serializable{
 		
 	}
 	
+	public Set<Path> getPaths() {
+		return this.paths;
+	}
+	
 	
 	private void makePlacementPoints() {
 		
@@ -266,11 +270,11 @@ public class Board implements Serializable{
 				
 				
 				
-				p1.x = x;
-				p1.y = y;
+				p1.x = x + 1920 / 2;
+				p1.y = y + 1080 / 2;
 				
-				p2.x = x2;
-				p2.y = y2;
+				p2.x = x2 + 1920 / 2;
+				p2.y = y2 + 1080 / 2;
 				
 				System.out.println(p1);
 				
@@ -283,7 +287,7 @@ public class Board implements Serializable{
 						
 						if(bp.distance(bpi) < 10) {
 							
-							System.out.println("Distance from other points: " + bp.distance(bpi));
+							//System.out.println("Distance from other points: " + bp.distance(bpi));
 							place = false;
 						}
 						
@@ -296,27 +300,51 @@ public class Board implements Serializable{
 				if(place) {
 					this.buildingPoints.add(bp);
 				}
-
 				
 				
-
 				
-				Path p = new Path(p1, p2);
+				//Path p = new Path(p1, p2);
 				
-				this.paths.add(p);
+				//System.out.print(p);
 				
+				//this.paths.add(p);
+				
+			}
+			
+			
+			for(BuildingPoint p1: this.buildingPoints) {
+				
+				for(BuildingPoint p2: this.buildingPoints) {
+					
+					if(p1 != p2) {
+						
+						PVector p1c = p1.getPoint();
+						PVector p2c = p2.getPoint();
+						
+						if(PApplet.dist(p1c.x, p1c.y, p2c.x, p2c.y) < 70) {
+							
+							Path p = new Path(p1c, p2c);
+							this.paths.add(p);
+							
+						}
+						
+						
+						
+					}
+					
+					
+					
+					
+				}
 				
 				
 			}
+			
+			
 			System.out.println();
 			
-			
 		}
-		
 
-		
-		
-		
 	}
 	
 	
@@ -346,6 +374,82 @@ public class Board implements Serializable{
 		canvas.text("X: " + x, 100, 800);
 		canvas.text("Y: " + y, 100, 900);
 		canvas.pop();
+		
+		
+		
+		for(Path path: this.paths) {
+			
+			canvas.push();
+			
+			
+			
+			
+			int[] color = path.getColor();
+			
+			if(color[0] == 0 && color[1] == 0 && color[2] == 0) {
+				canvas.strokeWeight(1);
+			}else {
+				canvas.strokeWeight(15);
+			}
+			
+			
+			canvas.stroke(color[0], color[1], color[2]);
+			
+			PVector p1 = path.getP1();
+			PVector p2 = path.getP2();
+			
+			canvas.line(p1.x, p1.y, p2.x, p2.y);
+			
+			
+			
+			
+			canvas.pop();
+			
+			
+		}
+		
+		
+		for(BuildingPoint p: this.buildingPoints) {
+			
+			String building = p.getBuilding();
+			int[] color = p.getColor();
+			PVector coords = p.getPoint();
+			
+
+			
+			if(building.equals("settlement")) {
+				
+
+				int buildX = (int) (coords.x - 10);
+				int buildY = (int) coords.y - 5 ;
+				
+				
+				canvas.push();
+				canvas.stroke(0);
+				canvas.strokeWeight(3);
+				
+				canvas.fill(color[0], color[1], color[2]);
+				
+				canvas.beginShape();
+				
+				canvas.vertex(buildX, buildY);
+				canvas.vertex(buildX, buildY + 15);
+				canvas.vertex(buildX + 20, buildY + 15);
+				canvas.vertex(buildX + 20, buildY);
+				canvas.vertex(buildX + 10, buildY - 10);
+				canvas.vertex(buildX, buildY);
+				
+				
+				canvas.endShape();
+				canvas.pop();
+				
+			}
+			
+			
+			
+			
+		}
+		
 		
 		
 	}

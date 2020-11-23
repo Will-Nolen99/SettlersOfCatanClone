@@ -112,6 +112,12 @@ public class Player implements Serializable {
 		return this.cards;
 	}
 	
+	public void decrementPiece(String piece) {
+		
+		int x = this.pieces.get(piece);	
+		this.pieces.put(piece, x - 1);
+	}
+	
 	
 	
 	

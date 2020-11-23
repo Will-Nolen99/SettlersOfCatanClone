@@ -17,8 +17,8 @@ public class Server {
 //		String n = keyboard.nextLine();
 //		int numPlayers = Integer.parseInt(n);
 		
-		int numPlayers = 2;		
-		int layers = 2;
+		int numPlayers = 1;		
+		int layers = 4;
 		
 //		System.out.print("Enter number of board layers: ");
 //		n = keyboard.nextLine();

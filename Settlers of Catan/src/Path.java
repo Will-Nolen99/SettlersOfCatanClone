@@ -1,5 +1,7 @@
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 import processing.core.PVector;
 
@@ -9,37 +11,127 @@ public class Path implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = -1489003526199585222L;
-	private PVector p1, p2;
 	private int[] color;
+	private Set<PVector> points;
+	private PVector p1, p2;
+	private boolean built;
+	
 	
 	
 	public Path(PVector p1, PVector p2) {
 		
+
+		this.p1 = new PVector();
+		this.p2 = new PVector();
+		
 		this.p1 = p1;
 		this.p2 = p2;
+		
 		this.color = new int[3];
+		
+		this.points = new HashSet<PVector>();
+		
+		this.points.add(p1);
+		this.points.add(p2);
 		
 		this.color[0] = 0;
 		this.color[1] = 0;
 		this.color[2] = 0;
 		
+		this.built = false;
+		
 	}
 	
 	
 	
+	/**
+	 * @return the built
+	 */
+	public boolean isBuilt() {
+		return built;
+	}
+
+
+
+	/**
+	 * @param built the built to set
+	 */
+	public void setBuilt(boolean built) {
+		this.built = built;
+	}
+
+
+
+	/**
+	 * @return the p1
+	 */
+	public PVector getP1() {
+		return p1;
+	}
+
+
+
+	/**
+	 * @param p1 the p1 to set
+	 */
+	public void setP1(PVector p1) {
+		this.p1 = p1;
+	}
+
+
+
+	/**
+	 * @return the p2
+	 */
+	public PVector getP2() {
+		return p2;
+	}
+
+
+
+	/**
+	 * @param p2 the p2 to set
+	 */
+	public void setP2(PVector p2) {
+		this.p2 = p2;
+	}
+
+
+
+	/**
+	 * @return the points
+	 */
+	public Set<PVector> getPoints() {
+		return points;
+	}
+
+
+	/**
+	 * @param points the points to set
+	 */
+	public void setPoints(Set<PVector> points) {
+		this.points = points;
+	}
+
+
+	public int[] getColor() {
+		return this.color;
+	}
 	
-	
+	public void setColor(int[] c) {
+		this.color = c;
+	}
+
+
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + Arrays.hashCode(color);
-		result = prime * result + ((p1 == null) ? 0 : p1.hashCode());
-		result = prime * result + ((p2 == null) ? 0 : p2.hashCode());
+		result = prime * result + ((points == null) ? 0 : points.hashCode());
 		return result;
 	}
-
-
 
 
 
@@ -58,77 +150,14 @@ public class Path implements Serializable{
 		if (!Arrays.equals(color, other.color)) {
 			return false;
 		}
-		if (p1 == null) {
-			if (other.p1 != null) {
+		if (points == null) {
+			if (other.points != null) {
 				return false;
 			}
-		} else if (!p1.equals(other.p1)) {
-			return false;
-		}
-		if (p2 == null) {
-			if (other.p2 != null) {
-				return false;
-			}
-		} else if (!p2.equals(other.p2)) {
+		} else if (!points.equals(other.points)) {
 			return false;
 		}
 		return true;
-	}
-
-
-
-
-
-	/**
-	 * @return the p1
-	 */
-	public PVector getP1() {
-		return p1;
-	}
-
-
-
-
-
-	/**
-	 * @param p1 the p1 to set
-	 */
-	public void setP1(PVector p1) {
-		this.p1 = p1;
-	}
-
-
-
-
-
-	/**
-	 * @return the p2
-	 */
-	public PVector getP2() {
-		return p2;
-	}
-
-
-
-
-
-	/**
-	 * @param p2 the p2 to set
-	 */
-	public void setP2(PVector p2) {
-		this.p2 = p2;
-	}
-
-
-
-
-
-	public int[] getColor() {
-		return this.color;
-	}
-	
-	public void setColor(int[] c) {
-		this.color = c;
 	}
 	
 	

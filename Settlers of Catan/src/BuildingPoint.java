@@ -38,6 +38,10 @@ public class BuildingPoint implements Serializable {
 		return this.color;
 	}
 	
+	public void setcolor(int [] c) {
+		this.color = c;
+	}
+	
 	public String getBuilding() {
 		return this.building;
 	}
@@ -53,6 +57,10 @@ public class BuildingPoint implements Serializable {
 		
 		return (int) PApplet.dist(p1.x, p1.y, p2.x, p2.y);
 		
+	}
+	
+	public void setBuilding(String s) {
+		this.building = s;
 	}
 	
 

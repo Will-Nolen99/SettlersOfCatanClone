@@ -29,6 +29,7 @@ public class Game extends PApplet {
 	private PlacementUi placementUi;
 	
 	
+	
     // The argument passed to main must match the class name
     public static void main(String[] args) {
         PApplet.main("Game");
@@ -115,7 +116,7 @@ public class Game extends PApplet {
     		this.waitingScreen.draw();
     		
     		if(client.getMode().equals("starting pieces")) {
-    			this.mode = "starting pieces";
+    			this.mode = "starting pieces settlement";
     			board = client.getBoard();
     			this.main.setMainPlayer(this.player);
     			this.others = client.getPlayers();
@@ -125,7 +126,7 @@ public class Game extends PApplet {
     		
     		break;
     		
-    	case "starting pieces":
+    	case "starting pieces settlement":
     		background(255);
     		stroke(0);
     		board.draw(this);
@@ -139,22 +140,61 @@ public class Game extends PApplet {
     				
     				
     				this.placementUi.setBoard(this.board);
-    				this.placementUi.draw("settlement");
-    				this.placementUi.update();
+    				boolean placed = this.placementUi.draw("settlement", this.player);
+    				this.board = this.placementUi.getBoard();
+    				
+    				if(placed) {
+    					this.mode = "starting pieces road";
+    				}
+    				
+    			}else {
     				
     				
-    			}//else {
-//    				
-//    				this.otherTurnUi.draw(turn);
-//    			}
+    				//this.otherTurnUi.draw(turn);
+    			}
     			
     			
     		}
     		
+
+    		break;
     		
     		
-    
+    	case "starting pieces road":
     		
+    		background(255);
+    		stroke(0);
+    		board.draw(this);
+    		this.main.draw();
+    		
+    		String turn1 = client.getPlayerTurn();
+    		
+    		if(!turn1.equals("none")) {
+    			
+    			if(turn1.equals(this.player.getName())) {
+    				
+    				
+    				this.placementUi.setBoard(this.board);
+    				boolean placed = this.placementUi.draw("road", this.player);
+    				this.board = this.placementUi.getBoard();
+    				
+    				this.mode = "starting pieces road";
+    				
+    				if (mouseX > 1900) {
+    					this.mode = "starting pieces settlement";
+    				}
+    				
+    				
+    			}else {
+    				
+    				
+    				//this.otherTurnUi.draw(turn);
+    			}
+    			
+    			
+    		}
+    		
+
     		break;
     		
     	}
