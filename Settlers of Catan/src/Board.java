@@ -386,19 +386,24 @@ public class Board implements Serializable{
 			
 			int[] color = path.getColor();
 			
+			PVector p1 = path.getP1();
+			PVector p2 = path.getP2();
+			
 			if(color[0] == 0 && color[1] == 0 && color[2] == 0) {
 				canvas.strokeWeight(1);
 			}else {
 				canvas.strokeWeight(15);
+				canvas.stroke(0);
+				canvas.line(p1.x, p1.y, p2.x, p2.y);
+				canvas.strokeWeight(12);
+				
+				canvas.stroke(color[0], color[1], color[2]);
+				
+				canvas.line(p1.x, p1.y, p2.x, p2.y);
 			}
 			
 			
-			canvas.stroke(color[0], color[1], color[2]);
-			
-			PVector p1 = path.getP1();
-			PVector p2 = path.getP2();
-			
-			canvas.line(p1.x, p1.y, p2.x, p2.y);
+
 			
 			
 			

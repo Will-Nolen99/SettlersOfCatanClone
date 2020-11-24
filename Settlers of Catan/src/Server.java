@@ -17,7 +17,7 @@ public class Server {
 //		String n = keyboard.nextLine();
 //		int numPlayers = Integer.parseInt(n);
 		
-		int numPlayers = 1;		
+		int numPlayers = 2;		
 		int layers = 4;
 		
 //		System.out.print("Enter number of board layers: ");
@@ -132,18 +132,10 @@ public class Server {
 				
 				System.out.println("Synchronizing with player " + (i + 1));
 				
-				for(int j = 0; j < connections.size(); j++) {
 					
-					if(j != i) {
+				current.sendPlayers(players);
 						
-						System.out.println("Sending information about player " + (j + 1));
-						
-						Player p = players.get(j);
-						current.sendPlayerInformation(p);
-						
-					}
-					
-				}
+
 				System.out.println();
 			}
 			
@@ -190,9 +182,14 @@ public class Server {
 				System.out.println("Updating board");
 				board = connection.getUpdatedBoard();
 				
+				
+				
 				System.out.println("Redistrubuting board");
 				for(Connection c : connections) {
+					
+					c.sendMessageType(6);
 					c.sendBoard(board);
+					
 				}
 				
 				
@@ -205,7 +202,33 @@ public class Server {
 			//snake turn backward
 			
 			
+			for(int i = players.size() - 1; i >= 0; i--) {
+				Player player = players.get(i);
+				Connection connection = connections.get(i);
 			
+				for(Connection c : connections) {
+
+					c.sendMessageType(4);
+					c.sendPlayerTurn(player.getName());
+					
+				}
+				
+				System.out.println("Updating board");
+				board = connection.getUpdatedBoard();
+				
+				
+				
+				System.out.println("Redistrubuting board");
+				for(Connection c : connections) {
+					
+					c.sendMessageType(6);
+					c.sendBoard(board);
+					
+				}
+				
+				
+				
+			}
 			
 			
 			
@@ -260,9 +283,27 @@ class Connection extends Thread {
 	
 	
 	
+	public void sendPlayers(ArrayList<Player> p) throws IOException {
+		this.out.writeObject(p);
+		this.out.flush();
+		
+	}
+
+
+
+
+	public Player getUpdatatedPlayer() throws ClassNotFoundException, IOException {
+		return (Player) this.in.readObject();
+	}
+
+
+
+
 	public Board getUpdatedBoard() throws ClassNotFoundException, IOException {
 		System.out.println("Awaiting board information");
 		Board b = (Board) this.in.readObject();
+		
+		System.out.println("Receieved board");
 		return b;
 	}
 

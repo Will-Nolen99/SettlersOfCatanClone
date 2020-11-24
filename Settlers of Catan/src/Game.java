@@ -3,6 +3,7 @@
 import java.io.IOException; 
 //import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 import processing.core.PApplet;
@@ -19,12 +20,11 @@ public class Game extends PApplet {
 	
 	private MainUi main;
 	
-	
 	private Client client;
 	
 	private Board board;
 	
-	private ArrayList<Player> others;
+	private ArrayList<Player> players;
 	
 	private PlacementUi placementUi;
 	
@@ -58,9 +58,13 @@ public class Game extends PApplet {
 //        String name = scnr.nextLine();
 //        
 //        scnr.close();
+        
+        
+        Random r = new Random();
+
         	
         
-        String name = "PlaceHolder";
+        String name = "" + r.nextInt(100000);
         
         this.player = new Player(name);
         this.player.setNum(-1);
@@ -68,15 +72,23 @@ public class Game extends PApplet {
         
         this.infoScreen = new PlayerInfoScreen(this, this.player);
         this.waitingScreen = new WaitingScreen(this);
-        this.main = new MainUi(this);
+        this.main = new MainUi(this, name);
         
         this.placementUi = new PlacementUi(this);
         
         
+        this.otherTurnUi = new OtherTurnUi();
+        
+
         
         
         
     }
+    
+    
+    
+    
+    
 
     // identical use to draw in Processing IDE
     public void draw(){
@@ -116,12 +128,38 @@ public class Game extends PApplet {
     		this.waitingScreen.draw();
     		
     		if(client.getMode().equals("starting pieces")) {
-    			this.mode = "starting pieces settlement";
-    			board = client.getBoard();
-    			this.main.setMainPlayer(this.player);
-    			this.others = client.getPlayers();
-    			this.main.addPlayers(this.others);
+    			this.mode = "starting placement";
     			
+    			this.players = client.getPlayers();
+    			board = client.getBoard();
+
+    			this.main.addPlayers(this.players);
+    			
+    		}
+    		
+    		break;
+    		
+    		
+    		
+    	case "starting placement":
+    		background(255);
+    		stroke(0);
+    		board.draw(this);
+    		this.main.draw();
+    		
+    		
+    		//delay(2000);
+    		
+    		String playerTurn = client.getPlayerTurn();
+    		
+    		String placeMode = this.client.getMode();
+    		this.board = this.client.getBoard(); 		
+    	
+    		
+    		if(placeMode.equals("placing")) {
+    			this.mode = "starting pieces settlement";
+    		}else {
+    			this.otherTurnUi.draw(this, playerTurn);
     		}
     		
     		break;
@@ -130,6 +168,8 @@ public class Game extends PApplet {
     		background(255);
     		stroke(0);
     		board.draw(this);
+
+    		
     		this.main.draw();
     		
     		String turn = client.getPlayerTurn();
@@ -140,17 +180,22 @@ public class Game extends PApplet {
     				
     				
     				this.placementUi.setBoard(this.board);
-    				boolean placed = this.placementUi.draw("settlement", this.player);
+    				boolean placed = this.placementUi.draw("settlement", this.player, "initial");
     				this.board = this.placementUi.getBoard();
+    				
+    				
+    				
+
     				
     				if(placed) {
     					this.mode = "starting pieces road";
+    					this.client.setBoard(this.board);
+    					this.client.setPlayer(this.player);
+    					this.player.decrementPiece("settlement");
+    					this.player.incrementPoints();
+    					
     				}
     				
-    			}else {
-    				
-    				
-    				//this.otherTurnUi.draw(turn);
     			}
     			
     			
@@ -175,20 +220,19 @@ public class Game extends PApplet {
     				
     				
     				this.placementUi.setBoard(this.board);
-    				boolean placed = this.placementUi.draw("road", this.player);
+    				boolean placed = this.placementUi.draw("road", this.player, "intitial");
     				this.board = this.placementUi.getBoard();
     				
-    				this.mode = "starting pieces road";
     				
-    				if (mouseX > 1900) {
-    					this.mode = "starting pieces settlement";
+    				if (placed) {
+    					
+    					this.client.setBoard(this.board);
+    					this.player.decrementPiece("road");
+    					this.mode = "starting placement";
+    					this.client.setMode("done");
     				}
     				
     				
-    			}else {
-    				
-    				
-    				//this.otherTurnUi.draw(turn);
     			}
     			
     			
@@ -196,6 +240,19 @@ public class Game extends PApplet {
     		
 
     		break;
+    		
+    		
+    	case "other players turn":
+    		
+    		background(255);
+    		stroke(0);
+    		board.draw(this);
+    		this.main.draw();
+
+    		this.mode = "starting placement";
+    		break;
+
+    		
     		
     	}
     	

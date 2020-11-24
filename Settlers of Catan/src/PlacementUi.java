@@ -32,7 +32,7 @@ public class PlacementUi {
 	}
 	
 	
-	public boolean draw(String piece, Player player) {
+	public boolean draw(String piece, Player player, String mode) {
 		
 		boolean placed = false;
 		
@@ -66,7 +66,6 @@ public class PlacementUi {
 					
 						this.canvas.push();
 						
-						//this.canvas.translate(this.canvas.width/2, this.canvas.height/2);
 						
 						this.canvas.stroke(0);
 						this.canvas.strokeWeight(3);
@@ -83,15 +82,11 @@ public class PlacementUi {
 							int x = this.canvas.mouseX ;
 							int y = this.canvas.mouseY;
 							
-							System.out.println("Mouse clicked: " + x + " " + y);
 							
 							if(PApplet.dist(x, y, coord.x, coord.y) < extent/2) {
 								
 								point.setBuilding("settlement");
 								placed = true;
-								
-								player.incrementPoints();
-								player.decrementPiece("settlement");
 								
 								point.setcolor(player.getColor());
 								
@@ -234,7 +229,7 @@ public class PlacementUi {
 								path.setBuilt(true);
 								path.setColor(player.getColor());
 								
-								player.decrementPiece("road");
+								placed = true;
 								
 								System.out.println("Built");
 								this.canvas.delay(250);

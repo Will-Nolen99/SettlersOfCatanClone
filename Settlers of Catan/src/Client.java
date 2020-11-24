@@ -23,7 +23,7 @@ public class Client extends Thread{
 	
 	boolean currentTurn;
 	
-	ArrayList<Player> otherPlayers;
+	ArrayList<Player> players;
 	
 	public Client() throws IOException{
 		this.socket = new Socket("127.0.0.1", 9090);
@@ -59,7 +59,7 @@ public class Client extends Thread{
 	}
 	
 	public ArrayList<Player> getPlayers(){
-		return this.otherPlayers;
+		return this.players;
 	}
 	
 	
@@ -68,6 +68,31 @@ public class Client extends Thread{
 	}
 	
 	
+	public void setBoard(Board b) {
+		this.board = b;
+	}
+	
+	public void sendBoard() throws IOException{
+		System.out.println("Sending board to server");
+		this.out.writeObject(this.board);
+		this.out.flush();
+	}
+	
+	public void setMode(String mode) {
+		this.mode = mode;
+	}
+	
+	public void sendPlayer() throws IOException {
+		this.out.writeObject(this.player);
+		this.out.flush();
+	}
+	
+	public String getPlayerTurn() {
+		return this.playerTurn;
+	}
+	
+	
+	@SuppressWarnings("unchecked")
 	@Override
 	public void run() {
 		boolean running = true;
@@ -108,21 +133,10 @@ public class Client extends Thread{
 							int otherPlayers = this.numPlayers - 1;
 							System.out.println("Other players in game: " + otherPlayers);
 							
-							this.otherPlayers = new ArrayList<Player>();
-							
-							for(int i = 0; i < otherPlayers; i++) {
+							this.players = new ArrayList<Player>();
 								
-								Player p = (Player) in.readObject();
-								
-								this.otherPlayers.add(p);
-								
-								int pNum = p.getNum();
-								
-								System.out.println("Player " + pNum + " Information recieved");
-								System.out.println(p);
-								
-							}
-							
+							this.players = (ArrayList<Player>)in.readObject();
+
 							System.out.println("All player information recieved");
 							System.out.println();
 							
@@ -141,6 +155,24 @@ public class Client extends Thread{
 							this.playerTurn = (String) this.in.readObject();
 							
 							System.out.println(this.playerTurn + "'s placement turn");
+							
+							
+							if(this.player.getName().equals(this.playerTurn)) {
+								this.mode = "placing";
+								
+								while(this.mode.equals("placing")) {
+									Thread.sleep(10);
+									continue;
+								}
+								
+								
+								System.out.println("Sending board");
+								this.sendBoard();
+								
+							}else {
+								this.mode = "waiting";
+							}
+
 							break;
 							
 							
@@ -148,6 +180,13 @@ public class Client extends Thread{
 						case 5:
 							System.out.println("End turn recieved");
 							this.currentTurn = false;
+							break;
+							
+							
+						case 6:
+							System.out.println("Getting board info");
+							
+							this.board = (Board) in.readObject();
 							break;
 							
 					}
@@ -173,9 +212,7 @@ public class Client extends Thread{
 	}
 
 
-	public String getPlayerTurn() {
-		return this.playerTurn;
-	}
+
 	
 	
 	

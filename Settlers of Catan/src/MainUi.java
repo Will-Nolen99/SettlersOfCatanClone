@@ -10,18 +10,20 @@ public class MainUi {
 	
 	
 	private ArrayList<Player> players;
-	private Player me;
+	private String name;
 	private int color;
 	PImage cardIcon;
 
 	
 	
-	public MainUi(PApplet p) {
+	public MainUi(PApplet p, String name) {
 		
 		this.canvas = p;
 		
 		this.cardIcon = this.canvas.loadImage("catanFiles/images/cardIcon.png");
 		this.cardIcon.resize(50, 50);
+		
+		this.name = name;
 		
 	}
 	
@@ -31,23 +33,28 @@ public class MainUi {
 		
 		for(Player player: this.players) {
 			player.loadPic(this.canvas);
+			
+			
+			if(player.getName().equals(this.name)) {
+				
+				
+				int[] c = player.getColor();
+				
+				this.color = this.canvas.color(c[0], c[1], c[2]);
+			}
+			
 		}
 		
 	}
 	
-	public void setMainPlayer(Player me) {
-		this.me = me;
-		int[] c = me.getColor();
-		
-		me.loadPic(this.canvas);
-		
-		
-		this.color = this.canvas.color(c[0], c[1], c[2]);
+	public void setMainPlayer(String name) {
+		this.name = name;
 		
 	}
 	
 	
-	public void drawUserFrame() {
+	
+	public void drawUserFrame(Player me) {
 		
 		/*
 		 * 
@@ -57,6 +64,7 @@ public class MainUi {
 		 */
 
 		this.canvas.push();
+		
 		
 		//main box
 		this.canvas.strokeWeight(5);
@@ -137,7 +145,7 @@ public class MainUi {
 	
 	public void drawPlayerFrame(int num, Player player){
 		
-		int c[] = player.getColor();
+		int[] c = player.getColor();
 		
 		int color = this.canvas.color(c[0], c[1], c[2]);
 		
@@ -186,16 +194,20 @@ public class MainUi {
 		this.canvas.text("VP", 0, 0);
 		this.canvas.translate(0, 25);
 		this.canvas.text(player.getPoints(), 0, 0);
-		
+	
 		this.canvas.pop();
 		this.canvas.pop();
 		
 		
 
 		this.canvas.pop();
+		
+		
+		
+		
 	}
 	
-	public void drawCards() {
+	public void drawCards(Player me) {
 		
 		
 		/*
@@ -210,7 +222,7 @@ public class MainUi {
 		 *  
 		 */
 		
-		Map<String, Integer> cards = this.me.getCards();
+		Map<String, Integer> cards = me.getCards();
 		
 		
 		this.canvas.push();
@@ -266,12 +278,23 @@ public class MainUi {
 	
 	public void draw() {
 		
-		drawCards();
 		
-		drawUserFrame();
-		
-		for(int i = 0; i < this.players.size(); i++) {
-			drawPlayerFrame(i, this.players.get(i));
+
+		for(int i = 0, count = 0; i < this.players.size(); i++) {
+			
+			Player player = this.players.get(i);
+			
+			if(player.getName().equals(this.name)) {
+				
+				drawCards(player);
+				drawUserFrame(player);
+				
+			}else {
+			
+				drawPlayerFrame(count, this.players.get(i));
+				
+				count++;
+			}
 		}
 		
 		
