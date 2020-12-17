@@ -170,6 +170,11 @@ public class Game extends PApplet {
     		board.draw(this);
 
     		
+    		
+    		//TODO: change placement UI and Main UI
+    		// Pass in players as paramaters rather than instance variables.
+    		// get player number in game.
+    		
     		this.main.draw();
     		
     		String turn = client.getPlayerTurn();
@@ -178,12 +183,9 @@ public class Game extends PApplet {
     			
     			if(turn.equals(this.player.getName())) {
     				
-    				
     				this.placementUi.setBoard(this.board);
     				boolean placed = this.placementUi.draw("settlement", this.player, "initial");
     				this.board = this.placementUi.getBoard();
-    				
-    				
     				
 
     				
@@ -191,8 +193,16 @@ public class Game extends PApplet {
     					this.mode = "starting pieces road";
     					this.client.setBoard(this.board);
     					this.client.setPlayer(this.player);
-    					this.player.decrementPiece("settlement");
-    					this.player.incrementPoints();
+//    					this.player.decrementPiece("settlement");
+//    					this.player.incrementPoints();
+    					
+    					for(Player p: this.players) {
+    						if(p.getName().equals(this.player.getName())) {
+    							p.decrementPiece("settlement");
+    							p.incrementPoints();
+    							this.player = p;
+    						}
+    					}
     					
     				}
     				

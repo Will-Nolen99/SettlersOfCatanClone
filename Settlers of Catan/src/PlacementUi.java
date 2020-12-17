@@ -240,25 +240,12 @@ public class PlacementUi {
 						}
 						
 						
-						
-						
 					}
 					
-					
-					
-					
-					
-					
-					
 
-					
 				}
 				
-				
 
-
-				
-				
 				
 			} 
 			
