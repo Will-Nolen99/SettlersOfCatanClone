@@ -153,7 +153,9 @@ public class Game extends PApplet {
     		String playerTurn = client.getPlayerTurn();
     		
     		String placeMode = this.client.getMode();
-    		this.board = this.client.getBoard(); 		
+    		this.board = this.client.getBoard(); 	
+
+
     	
     		
     		if(placeMode.equals("placing")) {
@@ -193,8 +195,6 @@ public class Game extends PApplet {
     					this.mode = "starting pieces road";
     					this.client.setBoard(this.board);
     					this.client.setPlayer(this.player);
-//    					this.player.decrementPiece("settlement");
-//    					this.player.incrementPoints();
     					
     					for(Player p: this.players) {
     						if(p.getName().equals(this.player.getName())) {
@@ -239,6 +239,7 @@ public class Game extends PApplet {
     					this.client.setBoard(this.board);
     					this.player.decrementPiece("road");
     					this.mode = "starting placement";
+    					this.client.setPlayers(this.players);
     					this.client.setMode("done");
     				}
     				

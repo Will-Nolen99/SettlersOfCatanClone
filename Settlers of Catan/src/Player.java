@@ -19,7 +19,6 @@ public class Player implements Serializable {
 	private int totalCards;
 	private boolean currentTurn;
 	
-	private PImage pic;
 	
 	private Map<String, Integer> cards;
 	
@@ -66,13 +65,9 @@ public class Player implements Serializable {
 		this.picturePath = fname;
 	}
 	
-	public void loadPic(PApplet canvas) {
-		this.pic = canvas.loadImage(this.picturePath);
-		this.pic.resize(150, 150);
-	}
 	
-	public PImage getPic() {
-		return this.pic;
+	public String getPic() {
+		return this.picturePath;
 	}
 	
 	

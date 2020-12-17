@@ -182,13 +182,23 @@ public class Server {
 				System.out.println("Updating board");
 				board = connection.getUpdatedBoard();
 				
+				System.out.println("Updating Players");
+				players = connection.getUpdatedPlayers();
 				
 				
-				System.out.println("Redistrubuting board");
+				
+				System.out.println("Redistrubuting board and player information");
+				
 				for(Connection c : connections) {
 					
 					c.sendMessageType(6);
 					c.sendBoard(board);
+					
+					c.sendMessageType(7);
+					c.sendPlayers(players);
+					
+					
+					
 					
 				}
 				
@@ -215,6 +225,7 @@ public class Server {
 				
 				System.out.println("Updating board");
 				board = connection.getUpdatedBoard();
+				players = connection.getUpdatedPlayers();
 				
 				
 				
@@ -225,6 +236,8 @@ public class Server {
 					c.sendBoard(board);
 					
 				}
+				
+		
 				
 				
 				
@@ -294,6 +307,18 @@ class Connection extends Thread {
 
 	public Player getUpdatatedPlayer() throws ClassNotFoundException, IOException {
 		return (Player) this.in.readObject();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public ArrayList<Player> getUpdatedPlayers() throws ClassNotFoundException, IOException{
+		
+		System.out.println("Waiting PlayerList information");
+		ArrayList<Player> p =  (ArrayList<Player>) this.in.readObject();
+		
+		System.out.println("Recieved PlayerList information");
+		return p;
+		
+
 	}
 
 

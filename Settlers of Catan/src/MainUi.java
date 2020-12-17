@@ -1,5 +1,6 @@
-import java.util.ArrayList;
+import java.util.ArrayList; 
 import java.util.Map;
+import java.util.HashMap;
 
 import processing.core.PApplet;
 import processing.core.PImage;
@@ -13,6 +14,8 @@ public class MainUi {
 	private String name;
 	private int color;
 	PImage cardIcon;
+	
+	Map<String, PImage> picMap;
 
 	
 	
@@ -25,6 +28,8 @@ public class MainUi {
 		
 		this.name = name;
 		
+		this.picMap = new HashMap<String, PImage>();
+		
 	}
 	
 	
@@ -32,7 +37,13 @@ public class MainUi {
 		this.players = p;
 		
 		for(Player player: this.players) {
-			player.loadPic(this.canvas);
+
+			
+			PImage pic = this.canvas.loadImage(player.getPic());
+			pic.resize(150,  150);
+			String name = player.getName();
+			
+			this.picMap.put(name, pic);
 			
 			
 			if(player.getName().equals(this.name)) {
@@ -74,7 +85,10 @@ public class MainUi {
 		
 		//profile picture and outline
 		this.canvas.rect(25, 25, 150, 150);
-		this.canvas.image(me.getPic(), 25, 25);
+		
+
+		
+		this.canvas.image(this.picMap.get(me.getName()), 25, 25);
 		
 		//player name
 		this.canvas.fill(0);
@@ -165,7 +179,9 @@ public class MainUi {
 		this.canvas.translate(25, 25);
 		
 		this.canvas.rect(0, 0, 150, 150);
-		this.canvas.image(player.getPic(), 0, 0);
+		
+		
+		this.canvas.image(this.picMap.get(player.getName()), 0, 0);
 		
 		this.canvas.pop();
 		
@@ -185,15 +201,15 @@ public class MainUi {
 		this.canvas.fill(0);
 		this.canvas.textSize(25);
 		
-		this.canvas.text(player.getTotalCards(), 0,50);
+		this.canvas.text(player.getTotalCards(), 15,25);
 		
 		this.canvas.push();
 		this.canvas.translate(0, 75);
 		
 		
-		this.canvas.text("VP", 0, 0);
-		this.canvas.translate(0, 25);
-		this.canvas.text(player.getPoints(), 0, 0);
+//		this.canvas.text("VP", 0, 0);
+//		this.canvas.translate(0, 25);
+//		this.canvas.text(player.getPoints(), 0, 0);
 	
 		this.canvas.pop();
 		this.canvas.pop();

@@ -45,6 +45,9 @@ public class Client extends Thread{
 	}
 	
 	
+	public void setPlayers(ArrayList<Player> p) {
+		this.players = p;
+	}
 	
 	public String getMode() {
 		return this.mode;
@@ -60,6 +63,14 @@ public class Client extends Thread{
 	
 	public ArrayList<Player> getPlayers(){
 		return this.players;
+	}
+	
+	public void sendPlayers() throws IOException {
+		System.out.println("Sending Players to Server");
+		this.out.writeObject(this.players);
+		this.out.flush();
+		System.out.println("Players sent");
+		
 	}
 	
 	
@@ -168,6 +179,8 @@ public class Client extends Thread{
 								
 								System.out.println("Sending board");
 								this.sendBoard();
+								System.out.println("Sending Players");
+								this.sendPlayers();
 								
 							}else {
 								this.mode = "waiting";
@@ -187,6 +200,11 @@ public class Client extends Thread{
 							System.out.println("Getting board info");
 							
 							this.board = (Board) in.readObject();
+							break;
+							
+						case 7:
+							System.out.println("Revieveing other player information");
+							this.players = (ArrayList<Player>) in.readObject();
 							break;
 							
 					}
