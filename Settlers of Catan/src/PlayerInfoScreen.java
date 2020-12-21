@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Random;
 
 import processing.core.PApplet;
 import processing.core.PImage;
@@ -17,6 +18,14 @@ public class PlayerInfoScreen {
 	public PlayerInfoScreen(PApplet canvas, Player player) {
 		this.canvas = canvas;
 		this.player = player;
+		
+		Random r = new Random();
+		this.color[0] = r.nextInt(256);
+		this.color[1] = r.nextInt(256);
+		this.color[2] = r.nextInt(256);
+		picNum = r.nextInt(numPics) + 1;
+		
+		
 		
 		this.status = "drawing";
 		

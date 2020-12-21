@@ -207,6 +207,33 @@ public class Client extends Thread{
 							this.players = (ArrayList<Player>) in.readObject();
 							break;
 							
+						case 8:
+							System.out.println("Player turn recieved");
+							this.playerTurn = (String) this.in.readObject();
+							
+							if(this.player.getName().equals(this.playerTurn)) {
+								this.mode = "game";
+								
+								while(this.mode.equals("game")) {
+									Thread.sleep(10);
+									continue;
+								}
+								
+								System.out.println("Sending board");
+								this.sendBoard();
+								System.out.println("Sending Players");
+								this.sendPlayers();
+								
+							}else {
+								this.mode = "waiting";
+							}
+
+							break;
+								
+							
+							
+							
+							
 					}
 					
 				

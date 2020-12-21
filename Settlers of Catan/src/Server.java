@@ -234,7 +234,48 @@ public class Server {
 			
 			
 			
-		//Actual game start
+			//Actual game start
+			
+			
+			boolean gameOver = false;
+			
+			
+			System.out.println("Game Start");
+			
+			while(!gameOver) {
+				
+				for(int i = 0; i < players.size(); i++) {
+					
+					
+					
+					Player player = players.get(i);
+					Connection connection = connections.get(i);
+					
+					System.out.println("Begin " + player.getName() + "'s Turn");
+					
+					for(Connection c: connections) {
+						c.sendMessageType(8);
+						c.sendPlayerTurn(player.getName());
+					}
+					
+					System.out.println("Updating board");
+					board = connection.getUpdatedBoard();
+					players = connection.getUpdatedPlayers();
+					
+					System.out.println("Redistributing board");
+					for(Connection c: connections) {
+						c.sendMessageType(6);
+						c.sendBoard(board);
+					}
+					
+					System.out.println("End " + player.getName() + "'s Turn");
+				}
+				
+				
+			}
+			
+			
+			
 			
 			
 			

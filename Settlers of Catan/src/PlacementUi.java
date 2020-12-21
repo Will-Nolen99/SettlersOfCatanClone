@@ -93,16 +93,16 @@ public class PlacementUi {
 								int count = 0;
 								int[] playerColor = player.getColor();
 								
-								System.out.println("My color: " + Arrays.toString(playerColor));
+
 								for(BuildingPoint otherPoint: points) {
 									
 									int[] pointColor = otherPoint.getColor();
 									
-									System.out.println("point color: " + Arrays.toString(pointColor));
+
 									
 									if(pointColor[0] == playerColor[0] && pointColor[1] == playerColor[1] && pointColor[2] == playerColor[2]){
 										count++;
-										System.out.println(count);
+
 									}
 								}
 								
@@ -112,7 +112,7 @@ public class PlacementUi {
 								if(count == 1) {
 									Map<String, Integer> cards = player.getCards();
 									
-									System.out.println(cards);
+
 									
 									for(Hexagon hex : this.board.getTiles()) {
 										
@@ -121,15 +121,14 @@ public class PlacementUi {
 										
 										for(BuildingPoint bp: buildingPoints) {
 											
-											System.out.print("BP: " + bp);
-											//System.out.println("     POINT: " + point);
+
 											
 											PVector myCheckPoint = new PVector(); 
 											
 											myCheckPoint.x = point.getPoint().x - 1920 / 2;
 											myCheckPoint.y = point.getPoint().y - 1080 / 2;
 											
-											System.out.println("     POINT: " + myCheckPoint);
+
 											
 											PVector otherCheckPoint = new PVector();
 											
@@ -146,20 +145,18 @@ public class PlacementUi {
 													int num = cards.get(type);
 													cards.put(type, num + 1);
 													
-													System.out.println("Adding " + type);
+
 												}
 
 											}
 											
 										}
 										
-
-											
-											
+		
 										
 									}
 									
-									System.out.println(cards);
+
 									
 								}
 								

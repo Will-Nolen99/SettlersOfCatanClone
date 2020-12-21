@@ -2,6 +2,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import processing.core.PApplet;
 import processing.core.PImage;
@@ -25,6 +26,9 @@ public class Player implements Serializable {
 	private Map<String, Integer> pieces;
 	
 	public Player(String name) {
+		
+
+		
 		this.name = name;
 		this.points = 0;
 		

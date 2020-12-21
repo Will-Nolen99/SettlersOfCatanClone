@@ -33,11 +33,14 @@ public class Hexagon implements Serializable {
 	private Set<Path> paths = new HashSet<Path>();
 	private int color;
 	
+	boolean robber;
+	
 	private int radius; // temp for now
 	
 	public Hexagon(String type) {
 		this.type = type;	
 		this.radius = 60;
+		this.robber = false;
 	}
 	
 	public void setCoords(PVector center) {
@@ -63,6 +66,10 @@ public class Hexagon implements Serializable {
 		
 	}
 	
+	
+	public void robberFlip() {
+		this.robber = !this.robber;
+	}
 	
 	public int getNumber() {
 		return this.number;
@@ -164,6 +171,23 @@ public class Hexagon implements Serializable {
 		
 		
 		canvas.pop();
+		
+		
+		if(this.robber) {
+			
+			canvas.push();
+			
+			canvas.stroke(0);
+			canvas.strokeWeight(5);
+			canvas.noFill();
+			
+			canvas.circle(this.center.x, this.center.y , 50);
+			
+			
+			canvas.pop();
+			
+		}
+		
 		
 	}
 

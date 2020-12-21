@@ -58,7 +58,11 @@ public class Board implements Serializable{
 		
 		this.board = new ArrayList<Hexagon>();
 		
-		this.board.add(new Hexagon("desert"));
+		Hexagon desert = new Hexagon("desert");
+		
+		desert.robberFlip();
+		
+		this.board.add(desert);
 		
 		//put resources into deck
 		

@@ -28,6 +28,8 @@ public class Game extends PApplet {
 	
 	private PlacementUi placementUi;
 	
+	private RollUI roll;
+	
 	
 	
     // The argument passed to main must match the class name
@@ -78,6 +80,8 @@ public class Game extends PApplet {
         
         
         this.otherTurnUi = new OtherTurnUi();
+        
+        this.roll = new RollUI(this);
         
  
     }
@@ -155,6 +159,9 @@ public class Game extends PApplet {
     		
     		if(placeMode.equals("placing")) {
     			this.mode = "starting pieces settlement";
+    			
+    		}else if(placeMode.equals("game")) {
+    			this.mode = "game";
     		}else {
     			this.otherTurnUi.draw(this, playerTurn);
     		}
@@ -168,9 +175,7 @@ public class Game extends PApplet {
 
     		
     		
-    		//TODO: change placement UI and Main UI
-    		// Pass in players as paramaters rather than instance variables.
-    		// get player number in game.
+
     		
     		this.main.draw();
     		
@@ -268,7 +273,50 @@ public class Game extends PApplet {
 
     		
     		
+    		
+    	case "game":
+    		
+    		background(255);
+    		stroke(0);
+    		
+    		board.draw(this);
+    		this.main.draw();
+    		
+    		
+    		String currentTurn = client.getPlayerTurn();
+    		
+    		if(currentTurn.equals(this.player.getName())) {
+    			
+    			
+    			String turnMode = "Rolling";
+    			
+    			this.roll.draw();
+    			this.roll.update();
+    			
+    		}else {
+    			
+    			push();
+    			
+    			this.fill(0);
+    			text(currentTurn + "'s turn", width/2, 100);
+    			
+    			pop();
+    			
+    		}
+    		
+    		
+    		break;
+    		
+    		
     	}
+    	
+    	
+
+    		
+    		
+    		
+    	
+    	
     	
     }
     
