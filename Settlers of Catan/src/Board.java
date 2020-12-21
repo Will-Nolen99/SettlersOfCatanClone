@@ -47,6 +47,9 @@ public class Board implements Serializable{
 		return this.buildingPoints;
 	}
 	
+	public ArrayList<Hexagon> getTiles(){
+		return this.board;
+	}
 	
 	
 	private void makeBoard() {

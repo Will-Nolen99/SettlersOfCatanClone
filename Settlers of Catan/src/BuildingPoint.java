@@ -63,6 +63,12 @@ public class BuildingPoint implements Serializable {
 		this.building = s;
 	}
 	
+	@Override
+	public String toString() {
+		
+		return this.point.toString();
+	}
+	
 
 	@Override
 	public int hashCode() {

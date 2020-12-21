@@ -187,28 +187,20 @@ public class Server {
 				
 				
 				
-				System.out.println("Redistrubuting board and player information");
+				System.out.println("Redistrubuting board");
 				
 				for(Connection c : connections) {
 					
 					c.sendMessageType(6);
 					c.sendBoard(board);
 					
-					c.sendMessageType(7);
-					c.sendPlayers(players);
-					
-					
-					
 					
 				}
 				
-				
-				
+
 			}
 			
-			
-			
-			
+
 			//snake turn backward
 			
 			
@@ -237,12 +229,12 @@ public class Server {
 					
 				}
 				
-		
-				
-				
-				
 			}
 			
+			
+			
+			
+		//Actual game start
 			
 			
 			

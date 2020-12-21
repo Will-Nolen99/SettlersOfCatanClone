@@ -1,5 +1,6 @@
 
 import java.util.Arrays;
+import java.util.Map;
 import java.util.Set;
 
 import processing.core.PApplet;
@@ -85,10 +86,92 @@ public class PlacementUi {
 							
 							if(PApplet.dist(x, y, coord.x, coord.y) < extent/2) {
 								
+								
+								
+								
+								
+								int count = 0;
+								int[] playerColor = player.getColor();
+								
+								System.out.println("My color: " + Arrays.toString(playerColor));
+								for(BuildingPoint otherPoint: points) {
+									
+									int[] pointColor = otherPoint.getColor();
+									
+									System.out.println("point color: " + Arrays.toString(pointColor));
+									
+									if(pointColor[0] == playerColor[0] && pointColor[1] == playerColor[1] && pointColor[2] == playerColor[2]){
+										count++;
+										System.out.println(count);
+									}
+								}
+								
+								
+
+								
+								if(count == 1) {
+									Map<String, Integer> cards = player.getCards();
+									
+									System.out.println(cards);
+									
+									for(Hexagon hex : this.board.getTiles()) {
+										
+										Set<BuildingPoint> buildingPoints = hex.getBuildingPoints();
+										
+										
+										for(BuildingPoint bp: buildingPoints) {
+											
+											System.out.print("BP: " + bp);
+											//System.out.println("     POINT: " + point);
+											
+											PVector myCheckPoint = new PVector(); 
+											
+											myCheckPoint.x = point.getPoint().x - 1920 / 2;
+											myCheckPoint.y = point.getPoint().y - 1080 / 2;
+											
+											System.out.println("     POINT: " + myCheckPoint);
+											
+											PVector otherCheckPoint = new PVector();
+											
+											otherCheckPoint.x = bp.getPoint().x;
+											otherCheckPoint.y = bp.getPoint().y;
+											
+											
+											
+											if(PApplet.dist(myCheckPoint.x, myCheckPoint.y, otherCheckPoint.x, otherCheckPoint.y) < 10) {
+												
+												String type = hex.getType();
+												
+												if(cards.containsKey(type)) {
+													int num = cards.get(type);
+													cards.put(type, num + 1);
+													
+													System.out.println("Adding " + type);
+												}
+
+											}
+											
+										}
+										
+
+											
+											
+										
+									}
+									
+									System.out.println(cards);
+									
+								}
+								
 								point.setBuilding("settlement");
 								placed = true;
 								
 								point.setcolor(player.getColor());
+								
+								
+								
+								player.incrementPoints();
+								player.decrementPiece("settlement");
 								
 								this.canvas.delay(250);
 		
@@ -230,6 +313,7 @@ public class PlacementUi {
 								path.setColor(player.getColor());
 								
 								placed = true;
+								player.decrementPiece("road");
 								
 								System.out.println("Built");
 								this.canvas.delay(250);

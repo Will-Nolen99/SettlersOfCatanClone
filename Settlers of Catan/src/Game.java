@@ -79,10 +79,7 @@ public class Game extends PApplet {
         
         this.otherTurnUi = new OtherTurnUi();
         
-
-        
-        
-        
+ 
     }
     
     
@@ -148,8 +145,6 @@ public class Game extends PApplet {
     		this.main.draw();
     		
     		
-    		//delay(2000);
-    		
     		String playerTurn = client.getPlayerTurn();
     		
     		String placeMode = this.client.getMode();
@@ -196,13 +191,22 @@ public class Game extends PApplet {
     					this.client.setBoard(this.board);
     					this.client.setPlayer(this.player);
     					
-    					for(Player p: this.players) {
-    						if(p.getName().equals(this.player.getName())) {
-    							p.decrementPiece("settlement");
-    							p.incrementPoints();
-    							this.player = p;
+    					
+    					
+    					String name = this.player.getName();
+    					
+    					for(int i = 0; i < this.players.size(); i++) {
+    						
+    						if(this.players.get(i).getName().equals(name)) {
+    					
+    							this.players.remove(i);
+    							this.players.add(i, this.player);
+    					
     						}
     					}
+    					
+    					
+
     					
     				}
     				
@@ -237,7 +241,6 @@ public class Game extends PApplet {
     				if (placed) {
     					
     					this.client.setBoard(this.board);
-    					this.player.decrementPiece("road");
     					this.mode = "starting placement";
     					this.client.setPlayers(this.players);
     					this.client.setMode("done");

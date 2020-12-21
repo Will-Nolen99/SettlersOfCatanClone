@@ -43,7 +43,26 @@ public class Hexagon implements Serializable {
 	public void setCoords(PVector center) {
 		this.center = center;
 		System.out.println("Hex center at " + this.center.x  + ", " + this.center.y);
+		
+		
+		for(int angle = 30; angle <= 390; angle += 60) {
+			
+			float theta = PApplet.radians(angle);
+			
+			int x = PApplet.floor(this.center.x + radius * PApplet.cos(theta));
+			int y = PApplet.floor(this.center.y + radius * PApplet.sin(theta));
+			
+			
+			
+			
+			points.add(new BuildingPoint(new PVector(x,y)));
+			
+		}
+		
+		
+		
 	}
+	
 	
 	public int getNumber() {
 		return this.number;
@@ -55,6 +74,10 @@ public class Hexagon implements Serializable {
 	
 	public PVector getCenter() {
 		return this.center;
+	}
+	
+	public Set<BuildingPoint> getBuildingPoints() {
+		return this.points;
 	}
 	
 	public void setNum(int n) {
