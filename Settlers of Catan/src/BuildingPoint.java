@@ -1,6 +1,9 @@
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import processing.core.PApplet;
 import processing.core.PVector;
@@ -13,6 +16,8 @@ public class BuildingPoint implements Serializable {
 	private static final long serialVersionUID = 4061249677100782557L;
 	private PVector point;
 	private int[] color;
+
+	private Map<String, ArrayList<Integer>> resourceMap;
 	
 	private String building;
 	
@@ -26,6 +31,8 @@ public class BuildingPoint implements Serializable {
 		this.color[2] = 0;
 		
 		this.building = "none";
+		
+		this.resourceMap = new HashMap<String, ArrayList<Integer>>();
 		
 	}
 	
@@ -62,6 +69,30 @@ public class BuildingPoint implements Serializable {
 	public void setBuilding(String s) {
 		this.building = s;
 	}
+	
+	
+	public void addResource(String type, int num) {
+		
+		if(this.resourceMap.containsKey(type)) {
+			
+			ArrayList<Integer> copy = this.resourceMap.get(type);
+			copy.add(num);
+			this.resourceMap.put(type, copy);
+			
+		}else {
+			
+			ArrayList<Integer> copy = new ArrayList<Integer>();
+			copy.add(num);
+			this.resourceMap.put(type, copy);
+		}
+		
+		
+	}
+	
+	public Map<String, ArrayList<Integer>> getMap(){
+		return this.resourceMap;
+	}
+	
 	
 	@Override
 	public String toString() {

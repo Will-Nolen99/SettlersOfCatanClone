@@ -351,6 +351,42 @@ public class Board implements Serializable{
 			System.out.println();
 			
 		}
+		
+		
+		for(BuildingPoint bp: this.buildingPoints) {
+			
+			for(Hexagon hex: this.board) {
+				
+				for(BuildingPoint hexPoint: hex.getBuildingPoints()) {
+					
+					
+					PVector bpv = new PVector();
+					bpv.x = bp.getPoint().x - 1920 / 2;
+					bpv.y = bp.getPoint().y - 1080 / 2;
+					
+					PVector hexv = new PVector();
+					hexv.x = hexPoint.getPoint().x;
+					hexv.y = hexPoint.getPoint().y;
+					
+					System.out.print("bpv: " + bpv);
+					System.out.println("hexv: " + hexv);
+					
+					if(PApplet.dist(bpv.x, bpv.y, hexv.x, hexv.y) < 5) {
+						
+						bp.addResource(hex.getType(), hex.getNumber());
+						
+						
+					}
+					
+					
+					
+				}
+			}
+		}
+		
+		
+		
+		
 
 	}
 	

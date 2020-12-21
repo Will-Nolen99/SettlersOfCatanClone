@@ -3,10 +3,13 @@
 import java.io.IOException;  
 //import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Random;
 //import java.util.Scanner;
+import java.util.Set;
 
 import processing.core.PApplet;
+import processing.core.PVector;
 
 public class Game extends PApplet {
 
@@ -306,12 +309,78 @@ public class Game extends PApplet {
     		
     		board.draw(this);
     		this.main.draw();
+    		text("Your turn", width/2, 100);
     		
     		this.roll.draw();
 			this.roll.update();
 			
 			if(this.roll.isRolled()) {
-				this.mode = "other turn";
+				
+				
+				//int rollValue = this.roll.getRoll();
+				int rollValue = 6;
+				
+				
+				//give players cards based on roll
+				
+				
+				
+				for(Player player: this.players) {
+					
+					System.out.println("Adding cards for " + player.getName());
+					
+					int[] playerColor = player.getColor();
+					
+					for(BuildingPoint bp: this.board.getBuildingPoints()) {
+						
+						Map<String, ArrayList<Integer>> resourceMap = bp.getMap();
+						
+						System.out.println("MAP: " + resourceMap);
+						
+						int[] otherColor = bp.getColor();
+						
+						if(playerColor[0] == otherColor[0] && playerColor[1] == otherColor[1] && playerColor[2] == otherColor[2]) {
+							for(Map.Entry<String, ArrayList<Integer>> pair : resourceMap.entrySet()) {
+								
+								ArrayList<Integer> nums = pair.getValue();
+								String type = pair.getKey();
+								
+								for(int num: nums) {
+									if(num == rollValue) {
+										Map<String, Integer> cards = player.getCards();
+										
+										cards.put(type, cards.get(type) + 1);
+										
+										if(bp.getBuilding().equals("city")) {
+											cards.put(type, cards.get(type) + 1);
+										}
+										
+										
+										
+										
+									}
+								}
+								
+								
+							}
+						}
+						
+						
+						
+						
+					}
+				}
+					
+				
+				for(Player p: this.players) {
+					if(p.getName().equals(this.player.getName())) {
+						this.player = p;
+					}
+				}
+				
+				
+				
+				this.mode = "test";
 			}
 			
 			
@@ -336,6 +405,16 @@ public class Game extends PApplet {
     		if(client.getPlayerTurn().equals(this.player.getName())) {
     			this.mode = "game";
     		}
+    		
+    		break;
+    		
+    		
+    	case "test":
+    		background(255);
+    		stroke(0);
+    		
+    		board.draw(this);
+    		this.main.draw();
     		
     		break;
     		
