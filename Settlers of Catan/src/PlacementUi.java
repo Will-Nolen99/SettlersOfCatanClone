@@ -1,5 +1,4 @@
 
-import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
 
@@ -13,7 +12,6 @@ public class PlacementUi {
 	
 	private Board board;
 	
-	private String pieceType;
 	
 	
 	public PlacementUi(PApplet p) {
@@ -28,10 +26,7 @@ public class PlacementUi {
 		return this.board;
 	}
 	
-	public void setType(String s) {
-		this.pieceType = s;
-	}
-	
+
 	
 	public boolean draw(String piece, Player player, String mode) {
 		

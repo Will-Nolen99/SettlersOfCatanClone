@@ -30,7 +30,7 @@ public class Hexagon implements Serializable {
 	private String type;
 	private int number;
 	private Set<BuildingPoint> points = new HashSet<BuildingPoint>();
-	private Set<Path> paths = new HashSet<Path>();
+	//private Set<Path> paths = new HashSet<Path>();
 	private int color;
 	
 	boolean robber;

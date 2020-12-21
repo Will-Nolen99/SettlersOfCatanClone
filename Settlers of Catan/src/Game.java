@@ -1,10 +1,10 @@
 //import java.util.Scanner;
 
-import java.io.IOException; 
+import java.io.IOException;  
 //import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.Scanner;
+//import java.util.Scanner;
 
 import processing.core.PApplet;
 
@@ -288,25 +288,56 @@ public class Game extends PApplet {
     		if(currentTurn.equals(this.player.getName())) {
     			
     			
-    			String turnMode = "Rolling";
-    			
-    			this.roll.draw();
-    			this.roll.update();
+    			this.mode = "Rolling";
     			
     		}else {
     			
-    			push();
-    			
-    			this.fill(0);
-    			text(currentTurn + "'s turn", width/2, 100);
-    			
-    			pop();
+    			this.mode = "other turn";
     			
     		}
     		
     		
     		break;
+    	
+    	case "Rolling":
     		
+    		background(255);
+    		stroke(0);
+    		
+    		board.draw(this);
+    		this.main.draw();
+    		
+    		this.roll.draw();
+			this.roll.update();
+			
+			if(this.roll.isRolled()) {
+				this.mode = "other turn";
+			}
+			
+			
+			break;
+    		
+    		
+    	case "other turn":
+    		
+    		background(255);
+    		stroke(0);
+    		
+    		board.draw(this);
+    		this.main.draw();
+    		
+			push();
+			
+			this.fill(0);
+			text(client.getPlayerTurn() + "'s turn", width/2, 100);
+			
+			pop();
+    		
+    		if(client.getPlayerTurn().equals(this.player.getName())) {
+    			this.mode = "game";
+    		}
+    		
+    		break;
     		
     	}
     	

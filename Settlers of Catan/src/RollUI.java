@@ -4,15 +4,15 @@ import processing.core.PApplet;
 
 public class RollUI {
 
-	PApplet canvas;
+	private PApplet canvas;
 	
-	Random d1, d2;
+	private Random d1, d2;
 	
-	int val1, val2;
+	private int val1, val2;
 	
-	boolean rolled;
+	private boolean rolled;
 	
-	boolean hovered;
+	private boolean hovered;
 	
 	
 	public RollUI(PApplet c) {
@@ -186,6 +186,10 @@ public class RollUI {
 	
 	public int getRoll() {
 		return this.val1 + this.val2;
+	}
+	
+	public boolean isRolled() {
+		return this.rolled;
 	}
 	
 	
